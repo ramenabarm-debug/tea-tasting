@@ -43,10 +43,12 @@
   .chip.amberChip.selected { background: var(--amberDeep); border-color: var(--amberDeep); }
   .hr { height: 1px; background: var(--line); margin: 16px 0; }
   .rating-row { margin-bottom: 18px; }
-  .rating-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+  .rating-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; gap: 10px; }
+  .rating-head > div:first-child { flex: 1; min-width: 0; }
   .rating-title { font-size: 14.5px; font-weight: 600; color: var(--ink); }
   .rating-hint { font-size: 11.5px; color: var(--inkSoft); }
-  .stars button { background: none; border: none; padding: 3px; cursor: pointer; line-height: 0; }
+  .stars { display: flex; gap: 2px; flex-wrap: nowrap; flex-shrink: 0; }
+  .stars button { background: none; border: none; padding: 3px; cursor: pointer; line-height: 0; flex-shrink: 0; }
   .stars svg { display: block; }
   .comment-input { width: 100%; padding: 7px 10px; font-size: 13px; margin-top: 4px; border-radius: 8px; border: 1px solid var(--line); }
   .photos-row { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
@@ -216,6 +218,18 @@ Si algo no es visible o no puedes inferirlo con razonable certeza, usa null. No 
 
   function setState(patch) { Object.assign(state, patch); render(); }
 
+  function syncFormTextFromDom() {
+    const map = [['f-name', 'name'], ['f-brand', 'brand'], ['f-origin', 'origin'], ['f-type', 'type'], ['f-notes', 'notes']];
+    map.forEach(([id, key]) => {
+      const el = document.getElementById(id);
+      if (el) state.form.textDefaults[key] = el.value;
+    });
+    CATEGORIES.forEach((c) => {
+      const el = document.getElementById('f-comment-' + c.key);
+      if (el) state.form.commentDefaults[c.key] = el.value;
+    });
+  }
+
   // ---------- Actions (exposed on window for inline handlers via delegation) ----------
   function switchView(v) {
     if (v === 'new') { state.form = emptyForm(); state.aiSuggestion = null; state.aiError = null; state.nameError = false; }
@@ -372,6 +386,7 @@ Si algo no es visible o no puedes inferirlo con razonable certeza, usa null. No 
 
   // ---------- Render ----------
   function render() {
+    if (state.view === 'new') syncFormTextFromDom();
     const app = document.getElementById('app');
     app.innerHTML = `
       <div class="wrap">
