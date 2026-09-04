@@ -97,8 +97,8 @@
     { key: 'color', label: 'Color de la infusión', hint: 'Intensidad y tono', hasColorTags: true },
     { key: 'saborCuerpo', label: 'Sabor y cuerpo', hint: 'Qué tan lleno o ligero se siente en boca' },
     { key: 'dulzor', label: 'Dulzor', hint: '' },
-    { key: 'amargor', label: 'Amargor', hint: '' },
-    { key: 'astringencia', label: 'Astringencia', hint: 'Sensación seca o áspera en boca' },
+    { key: 'amargor', label: 'Amargor', hint: '5 = justo a tu gusto, 1 = te desagradó (no es "cuánto amargor hay")' },
+    { key: 'astringencia', label: 'Astringencia', hint: '5 = bien integrada, 1 = molesta o excesiva (no es "cuánta hay")' },
     { key: 'persistencia', label: 'Persistencia', hint: 'Retrogusto: cuánto dura el sabor' },
     { key: 'equilibrio', label: 'Equilibrio general', hint: 'Qué tan bien combinan los sabores' },
     { key: 'calidadHoja', label: 'Calidad de la hoja', hint: 'Hojas rotas, polvo, mezcla pareja' },
@@ -489,6 +489,7 @@ Si algo no es visible o no puedes inferirlo con razonable certeza, usa null. No 
         </div>
 
         <div class="hr"></div>
+        <div style="font-size:11.5px; color:var(--inkSoft); margin:-8px 0 14px; line-height:1.5;">Las estrellas siempre miden qué tanto te gustó ese aspecto (5 = te encantó, 1 = no te gustó) — no la cantidad o intensidad presente.</div>
 
         ${CATEGORIES.map((cat) => `
           <div class="rating-row">
